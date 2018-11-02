@@ -8,7 +8,7 @@ static void main_window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
 
   // Load large font
-  GFont large_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LECO_55));
+  GFont large_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LECO_50));
 
   // Create the TextLayer with specific bounds
   s_time_layer = text_layer_create(
@@ -18,6 +18,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_text(s_time_layer, "00:00");
+  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
   text_layer_set_font(s_time_layer, large_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
 
