@@ -1,8 +1,22 @@
 #include <pebble.h>
 static Window *s_main_window;
 static TextLayer *s_time_layer;
-static BitmapLayer *s_background_layer;
-static GBitmap *s_background_bitmap;
+static Layer *s_image_layer;
+static GBitmap *s_image;
+
+static void layer_update_callback(Layer *layer, GContext* ctx) {
+  // We make sure the dimensions of the GRect to draw into
+  // are equal to the size of the bitmap--otherwise the image
+  // will automatically tile. Which might be what *you* want.
+  const uint8_t offset = PBL_IF_ROUND_ELSE(17, 0);
+
+  GSize image_size = gbitmap_get_bounds(s_image).size;
+
+  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(5 + offset, 5 + offset, image_size.w,
+                               image_size.h));
+  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(80 + offset, 60 + offset, image_size.w,
+                               image_size.h));
+}
 
 static void main_window_load(Window *window) {
 
@@ -24,20 +38,14 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
   text_layer_set_font(s_time_layer, large_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
-
-  // Create GBitmap
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FIST);
-  GRect image_bounds = gbitmap_get_bounds(s_background_bitmap);
-
-  // Create BitmapLayer to display the GBitmap
-  s_background_layer = bitmap_layer_create(bounds);
-
-  // Set the bitmap onto the layer and add to the window
-  bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-  layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
-
-  // Add it as a child layer to the Window's root layer
+  // Add to window
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
+
+  s_image_layer = layer_create(bounds);
+  layer_set_update_proc(s_image_layer, layer_update_callback);
+  layer_add_child(window_layer, s_image_layer);
+
+  s_image = gbitmap_create_with_resource(RESOURCE_ID_FIST);
 }
 
 static void main_window_unload(Window *window) {
