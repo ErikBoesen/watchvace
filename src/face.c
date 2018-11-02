@@ -10,7 +10,7 @@ static void layer_update_callback(Layer *layer, GContext* ctx) {
   // will automatically tile. Which might be what *you* want.
   GSize image_size = gbitmap_get_bounds(s_image).size;
 
-  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(5, 5, image_size.w, image_size.h));
+  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(0, 0, image_size.w, image_size.h));
 }
 
 static void main_window_load(Window *window) {
