@@ -1,17 +1,8 @@
 #include <pebble.h>
 static Window *s_main_window;
 static TextLayer *s_time_layer;
-static Layer *s_image_layer;
+static BitmapLayer *s_image_layer;
 static GBitmap *s_image;
-
-static void layer_update_callback(Layer *layer, GContext* ctx) {
-  // We make sure the dimensions of the GRect to draw into
-  // are equal to the size of the bitmap--otherwise the image
-  // will automatically tile. Which might be what *you* want.
-  GSize image_size = gbitmap_get_bounds(s_image).size;
-
-  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(2, 170-image_size.h, image_size.w, image_size.h));
-}
 
 static void main_window_load(Window *window) {
 
@@ -22,13 +13,15 @@ static void main_window_load(Window *window) {
   // Load large font
   GFont large_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LECO_50));
 
+  window_set_background_color(s_main_window, GColorRed);
+
   // Create the TextLayer with specific bounds
   s_time_layer = text_layer_create(
       GRect(0, 5, bounds.size.w, 50));
 
   // Improve the layout to be more like a watchface
   text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorRed);
+  text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_text(s_time_layer, "");
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
   text_layer_set_font(s_time_layer, large_font);
@@ -36,11 +29,12 @@ static void main_window_load(Window *window) {
   // Add to window
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));
 
-  s_image_layer = layer_create(bounds);
-  layer_set_update_proc(s_image_layer, layer_update_callback);
-  layer_add_child(window_layer, s_image_layer);
-
   s_image = gbitmap_create_with_resource(RESOURCE_ID_FIST);
+  GSize image_size = gbitmap_get_bounds(s_image).size;
+  s_image_layer = bitmap_layer_create(GRect(2, 170-image_size.h, image_size.w, image_size.h));
+  bitmap_layer_set_compositing_mode(s_image_layer, GCompOpSet);
+  bitmap_layer_set_bitmap(s_image_layer, s_image);
+  layer_add_child(window_layer, bitmap_layer_get_layer(s_image_layer));
 }
 
 static void main_window_unload(Window *window) {
