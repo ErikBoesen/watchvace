@@ -1,8 +1,11 @@
 #include <pebble.h>
 static Window *s_main_window;
 static TextLayer *s_time_layer;
+static BitmapLayer *s_background_layer;
+static GBitmap *s_background_bitmap;
 
 static void main_window_load(Window *window) {
+
   // Get information about the Window
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -21,6 +24,17 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
   text_layer_set_font(s_time_layer, large_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
+
+  // Create GBitmap
+  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FIST);
+  GRect image_bounds = gbitmap_get_bounds(s_background_bitmap);
+
+  // Create BitmapLayer to display the GBitmap
+  s_background_layer = bitmap_layer_create(bounds);
+
+  // Set the bitmap onto the layer and add to the window
+  bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+  layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
 
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_layer, text_layer_get_layer(s_time_layer));

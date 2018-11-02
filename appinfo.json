@@ -21,6 +21,11 @@
             "type": "font",
             "name": "FONT_LECO_50",
             "file": "fonts/LECO_1976.otf"
+        },
+        {
+            "type": "bitmap",
+            "name": "FIST",
+            "file": "images/fist.png"
         }
     ]
   }
