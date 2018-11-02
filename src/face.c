@@ -31,7 +31,7 @@ static void main_window_load(Window *window) {
 
   s_image = gbitmap_create_with_resource(RESOURCE_ID_FIST);
   GSize image_size = gbitmap_get_bounds(s_image).size;
-  s_image_layer = bitmap_layer_create(GRect(2, 170-image_size.h, image_size.w, image_size.h));
+  s_image_layer = bitmap_layer_create(GRect(0, 170-image_size.h, image_size.w, image_size.h));
   bitmap_layer_set_compositing_mode(s_image_layer, GCompOpSet);
   bitmap_layer_set_bitmap(s_image_layer, s_image);
   layer_add_child(window_layer, bitmap_layer_get_layer(s_image_layer));
