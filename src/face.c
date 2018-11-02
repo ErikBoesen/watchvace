@@ -10,7 +10,7 @@ static void layer_update_callback(Layer *layer, GContext* ctx) {
   // will automatically tile. Which might be what *you* want.
   GSize image_size = gbitmap_get_bounds(s_image).size;
 
-  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(0, 0, image_size.w, image_size.h));
+  graphics_draw_bitmap_in_rect(ctx, s_image, GRect(2, 170-image_size.h, image_size.w, image_size.h));
 }
 
 static void main_window_load(Window *window) {
@@ -29,7 +29,7 @@ static void main_window_load(Window *window) {
   // Improve the layout to be more like a watchface
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
-  text_layer_set_text(s_time_layer, "00:00");
+  text_layer_set_text(s_time_layer, "");
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
   text_layer_set_font(s_time_layer, large_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
