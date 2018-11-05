@@ -38,8 +38,8 @@ static void main_window_load(Window *window) {
 }
 
 static void main_window_unload(Window *window) {
-  // Destroy TextLayer
   text_layer_destroy(s_time_layer);
+  bitmap_layer_destroy(s_image_layer);
 }
 
 static void update_time() {
