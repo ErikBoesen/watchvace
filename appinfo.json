@@ -11,10 +11,7 @@
   "capabilities": [
     "configurable"
   ],
-  "appKeys": {
-    "backgroundColor": 0,
-    "twentyFourHourFormat": 1
-  },
+  "appKeys": {},
   "resources": {
     "media": [
         {
