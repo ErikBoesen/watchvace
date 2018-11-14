@@ -26,6 +26,12 @@
             "type": "bitmap",
             "name": "FIST",
             "file": "images/fist.png"
+        },
+        {
+            "type": "png",
+            "menuIcon": true,
+            "name": "IMAGE_MENU_ICON",
+            "file": "images/logo.png"
         }
     ]
   }
